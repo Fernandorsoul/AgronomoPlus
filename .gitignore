@@ -1,0 +1,54 @@
+# .gitignore para o projeto Agrônomo Plus
+
+# Diretórios de dependências do .NET
+bin/
+obj/
+
+# Arquivos de configuração específicos do ambiente
+appsettings.Development.json
+appsettings.Production.json
+appsettings.json
+
+# Diretórios do Docker
+.docker/
+docker-compose.override.yml
+
+# Arquivos de backup e temporários
+*.bak
+*.swp
+*.swo
+
+# Arquivos de cache de pacotes do NuGet
+.nuget/
+packages/
+
+# Diretórios de configuração do VS Code
+.vscode/
+
+# Diretórios de IDEs específicas (ex: Visual Studio)
+.idea/
+
+# Arquivos temporários do Visual Studio
+.vs/
+.vsconfig
+
+# Arquivos gerados pelo build
+*.exe
+*.dll
+*.pdb
+*.user
+*.app
+*.xap
+
+# Arquivos de log
+*.log
+
+# Diretórios e arquivos de cache de compilação do Docker
+docker-compose.override.yml
+
+# Arquivos de teste e cobertura de código
+coverage/
+
+# Outros arquivos de cache
+Thumbs.db
+Desktop.ini
