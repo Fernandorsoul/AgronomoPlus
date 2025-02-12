@@ -1,6 +1,6 @@
 @AgronomoPlus.Api_HostAddress = http://localhost:5299
 
-GET {{AgronomoPlus.Api_HostAddress}}/weatherforecast/
+GET {{AgronomoPlus.Api_HostAddress}}/AgronomoPlus/
 Accept: application/json
 
 ###
