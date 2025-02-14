@@ -1,9 +1,8 @@
+using AgronomoPlus.Application.Interfaces;
 using AgronomoPlus.Application.Services;
 using AgronomoPlus.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+
 
 namespace AgronomoPlus.API.Controllers
 {
@@ -11,9 +10,9 @@ namespace AgronomoPlus.API.Controllers
     [ApiController]
     public class PersonController : ControllerBase
     {
-        private readonly PersonService _personService;
+        private readonly IPersonService _personService;
 
-        public PersonController(PersonService personService)
+        public PersonController(IPersonService personService)
         {
             _personService = personService ?? throw new ArgumentNullException(nameof(personService));
         }

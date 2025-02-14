@@ -4,29 +4,29 @@ using AgronomoPlus.Domain.Interfaces;
 
 namespace AgronomoPlus.Application.Services
 {
-    public class UsuarioService : IUsuarioService
+    public class PersonService : IPersonService
     {
-        private readonly IPersonRepository _usuarioRepository;
+        private readonly IPersonRepository _personRepository;
 
-        public UsuarioService(IPersonRepository usuarioRepository)
+        public PersonService(IPersonRepository personRepository)
         {
-            _usuarioRepository = usuarioRepository;
+            _personRepository = personRepository;
         }
 
         public async Task<Person> CreateAsync(Person person)
         {
             person.Id = Guid.NewGuid();
-            return await _usuarioRepository.AddAsync(person);
+            return await _personRepository.AddAsync(person);
         }
 
         public async Task<IEnumerable<Person>> GetAllAsync()
         {
-            return await _usuarioRepository.AllPersons();
+            return await _personRepository.AllPersons();
         }
 
         public async Task<Person> GetByIdAsync(Guid id)
         {
-            var usuario = await _usuarioRepository.GetPersonById(id);
+            var usuario = await _personRepository.GetPersonById(id);
             if (usuario == null)
                 throw new KeyNotFoundException("Usuário não encontrado.");
 
@@ -35,7 +35,7 @@ namespace AgronomoPlus.Application.Services
 
         public async Task<Person> UpdateAsync(Guid id, Person person)
         {
-            var existingUser = await _usuarioRepository.GetPersonById(id);
+            var existingUser = await _personRepository.GetPersonById(id);
             if (existingUser == null)
                 throw new KeyNotFoundException("Usuário não encontrado.");
 
@@ -43,16 +43,16 @@ namespace AgronomoPlus.Application.Services
             existingUser.Email = person.Email;
             existingUser.Password = person.Password; // ⚠️ Idealmente, criptografar a senha aqui.
 
-            return await _usuarioRepository.UpdateAsync(existingUser);
+            return await _personRepository.UpdateAsync(existingUser);
         }
 
         public async Task<bool> DeleteAsync(Guid id)
         {
-            var existingUser = await _usuarioRepository.GetPersonById(id);
+            var existingUser = await _personRepository.GetPersonById(id);
             if (existingUser == null)
                 throw new KeyNotFoundException("Usuário não encontrado.");
 
-            return await _usuarioRepository.DeleteAsync(id);
+            return await _personRepository.DeleteAsync(id);
         }
     }
 }

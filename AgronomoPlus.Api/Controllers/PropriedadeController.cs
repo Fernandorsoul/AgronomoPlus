@@ -1,9 +1,6 @@
 using AgronomoPlus.Application.Services;
 using AgronomoPlus.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace AgronomoPlus.API.Controllers
 {

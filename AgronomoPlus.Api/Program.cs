@@ -1,19 +1,35 @@
+using AgronomoPlus.Application.Interfaces;
+using AgronomoPlus.Application.Services;
+using AgronomoPlus.Infrastructure.Data;
+using AgronomoPlus.Domain.Interfaces;
+using AgronomoPlus.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
+using AgronomoPlus.Domain.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+// Configura��o dos servi�os antes de construir o app
 
-var app = builder.Build();
 builder.Services.AddDbContext<AgroPlusDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
-);
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+
+// Adiciona o servi�o de autoriza��o
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = "https://your-auth-server.com";  // Substitua pela URL de sua autoridade de autenticação
+        options.Audience = "your-audience";  // Substitua com seu público
+    });
+// Registra o reposit�rio IPersonRepository
 builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+var app = builder.Build();
+
+// Uso dos servi�os no pipeline
+app.UseAuthentication(); // Deve vir antes do UseAuthorization()
+app.UseAuthorization();
+
 app.Run();
