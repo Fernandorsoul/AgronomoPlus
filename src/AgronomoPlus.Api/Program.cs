@@ -17,19 +17,22 @@ builder.Services.AddDbContext<AgroPlusDbContext>(options =>
 
 // Adiciona o servi�o de autoriza��o
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+/*builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.Authority = "https://your-auth-server.com";  // Substitua pela URL de sua autoridade de autenticação
         options.Audience = "your-audience";  // Substitua com seu público
-    });
+    });*/
 // Registra o reposit�rio IPersonRepository
+builder.Services.AddScoped<IPragaService, PragaService>();
+builder.Services.AddScoped<IPragaOuDoencaRepository, PragaOuDoencaRepository>();
 builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 
 var app = builder.Build();
 
-// Uso dos servi�os no pipeline
-app.UseAuthentication(); // Deve vir antes do UseAuthorization()
-app.UseAuthorization();
+/* Uso dos servi�os no pipeline
+app.UseAuthentication();
+// Deve vir antes do UseAuthorization()
+app.UseAuthorization();*/
 
 app.Run();
