@@ -27,12 +27,37 @@ builder.Services.AddDbContext<AgroPlusDbContext>(options =>
 builder.Services.AddScoped<IPragaService, PragaService>();
 builder.Services.AddScoped<IPragaOuDoencaRepository, PragaOuDoencaRepository>();
 builder.Services.AddScoped<IPersonRepository, PersonRepository>();
+builder.Services.AddScoped<IPersonService, PersonService>();
+
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddControllers();
+/*builder.Services.AddHateoas();*/
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.EnableAnnotations();
+});
+
 
 var app = builder.Build();
+app.MapControllers();
+
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+
+
 
 /* Uso dos servi�os no pipeline
 app.UseAuthentication();
 // Deve vir antes do UseAuthorization()
 app.UseAuthorization();*/
+
 
 app.Run();

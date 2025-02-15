@@ -7,7 +7,6 @@ public class AgroPlusDbContext : DbContext
 {
     public AgroPlusDbContext(DbContextOptions<AgroPlusDbContext>options):base(options)
     {
-        
     }
     public DbSet<Person> People{get;set;}
     public DbSet<Propriedade> Propriedades{get;set;}
