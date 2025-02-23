@@ -2,6 +2,12 @@
 
 > **Status:** Em Desenvolvimento
 
+## Arquitetura utilizada
+
+- **Clean Code**
+- **DDD**
+- **TDD**
+
 ## Visão Geral
 
 Agrônomo Plus é uma plataforma digital projetada para ajudar pequenos produtores rurais a gerenciar suas propriedades de forma mais eficiente. Através da integração de ferramentas de gestão financeira, de estoque e de dados agronômicos, buscamos otimizar os recursos e melhorar a produtividade no campo.
