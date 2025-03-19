@@ -20,8 +20,8 @@ builder.Services.AddDbContext<AgroPlusDbContext>(options =>
 /*builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.Authority = "https://your-auth-server.com";  // Substitua pela URL de sua autoridade de autenticação
-        options.Audience = "your-audience";  // Substitua com seu público
+        options.Authority = "https://";
+        options.Audience = "";  // 
     });*/
 // Registra o reposit�rio IPersonRepository
 builder.Services.AddScoped<IPragaService, PragaService>();
@@ -33,7 +33,8 @@ builder.Services.AddScoped<IPersonService, PersonService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
-/*builder.Services.AddHateoas();*/
+/*
+builder.Services.AddHateoas();*/
 
 builder.Services.AddSwaggerGen(c =>
 {
