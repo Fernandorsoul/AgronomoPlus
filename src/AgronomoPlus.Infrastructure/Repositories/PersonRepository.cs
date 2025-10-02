@@ -3,7 +3,7 @@ using AgronomoPlus.Domain.Models;
 using AgronomoPlus.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace AgronomoPlus.Domain.Repository;
+namespace AgronomoPlus.Infrastructure.Repositories;
 
 public class PersonRepository : IPersonRepository
 {
@@ -45,5 +45,8 @@ public class PersonRepository : IPersonRepository
         return true;
     }
 
-    
+    public async Task<Person?> FindByEmailAsync(string email)
+    {
+        return await _context.People.FirstOrDefaultAsync(p => p.Email == email);
+    }
 }

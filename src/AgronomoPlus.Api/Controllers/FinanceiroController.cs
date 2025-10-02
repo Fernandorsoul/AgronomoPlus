@@ -1,52 +1,98 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+﻿using AgronomoPlus.Application.Interfaces;
+using AgronomoPlus.Domain.Models;
+using Microsoft.AspNetCore.Mvc;
 
-[ApiController]
-[Route("api/[controller]")]
-public class FinanceiroController : ControllerBase
+// Arquivo corrigido: Controller atualizado para usar o serviço MovimentacaoFinanceiraService
+// em vez de armazenamento estático em memória. Isso permite persistência no banco de dados
+// e integração com o sistema de DI.
+namespace AgronomoPlus.Api.Controllers
 {
-    private static List<object> movimentacoes = new List<object>();
-
-    [HttpGet]
-    public IActionResult GetAll()
+    [ApiController]
+    [Route("api/[controller]")]
+    public class FinanceiroController : ControllerBase
     {
-        return Ok(movimentacoes);
-    }
+        private readonly IMovimentacaoFinanceiraService _movimentacaoService;
 
-    [HttpGet("{id}")]
-    public IActionResult GetById(int id)
-    {
-        if (id < 0 || id >= movimentacoes.Count)
-            return NotFound("Movimentação não encontrada.");
+        public FinanceiroController(IMovimentacaoFinanceiraService movimentacaoService)
+        {
+            _movimentacaoService = movimentacaoService ?? throw new ArgumentNullException(nameof(movimentacaoService));
+        }
 
-        return Ok(movimentacoes[id]);
-    }
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var movimentacoes = await _movimentacaoService.GetAllAsync();
+            return Ok(movimentacoes);
+        }
 
-    [HttpPost]
-    public IActionResult Create([FromBody] object movimentacao)
-    {
-        movimentacoes.Add(movimentacao);
-        return Created($"api/financeiro/{movimentacoes.Count - 1}", movimentacao);
-    }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            try
+            {
+                var movimentacao = await _movimentacaoService.GetByIdAsync(id);
+                return Ok(movimentacao);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound("Movimentação financeira não encontrada.");
+            }
+        }
 
-    [HttpPut("{id}")]
-    public IActionResult Update(int id, [FromBody] object movimentacaoAtualizada)
-    {
-        if (id < 0 || id >= movimentacoes.Count)
-            return NotFound("Movimentação não encontrada.");
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] MovimentacaoFinanceira movimentacao)
+        {
+            if (movimentacao == null)
+                return BadRequest("Dados inválidos.");
 
-        movimentacoes[id] = movimentacaoAtualizada;
-        return NoContent();
-    }
+            try
+            {
+                var createdMovimentacao = await _movimentacaoService.CreateAsync(movimentacao);
+                return CreatedAtAction(nameof(GetById), new { id = createdMovimentacao.Id }, createdMovimentacao);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
-    [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
-    {
-        if (id < 0 || id >= movimentacoes.Count)
-            return NotFound("Movimentação não encontrada.");
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(Guid id, [FromBody] MovimentacaoFinanceira movimentacao)
+        {
+            if (movimentacao == null)
+                return BadRequest("Dados inválidos.");
 
-        movimentacoes.RemoveAt(id);
-        return NoContent();
+            try
+            {
+                var updatedMovimentacao = await _movimentacaoService.UpdateAsync(id, movimentacao);
+                return Ok(updatedMovimentacao);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound("Movimentação financeira não encontrada.");
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            try
+            {
+                var deleted = await _movimentacaoService.DeleteAsync(id);
+                if (deleted)
+                    return NoContent();
+                else
+                    return NotFound("Movimentação financeira não encontrada.");
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound("Movimentação financeira não encontrada.");
+            }
+        }
     }
 }
 

@@ -4,9 +4,9 @@ namespace AgronomoPlus.Domain.Interfaces;
 
 public interface IAnaliseDeSoloRepository
 {
-    Task<IEnumerable<AnaliseDeSolo>> GetAnalisesDeSolo ();
-    Task<AnaliseDeSolo> GetAnaliseDeSoloById(Guid id);
-    Task AddAsync (AnaliseDeSolo analise);
-    Task UpdateAnalise (AnaliseDeSolo analise);
+    Task<IEnumerable<ComposicaoDeSolo>> GetAnalisesDeSolo ();
+    Task<ComposicaoDeSolo> GetAnaliseDeSoloById(Guid id);
+    Task AddAsync (ComposicaoDeSolo analise);
+    Task UpdateAnalise (ComposicaoDeSolo analise);
     Task RemoveAnalise(Guid id);
 }

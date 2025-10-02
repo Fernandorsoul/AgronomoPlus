@@ -13,21 +13,21 @@ public class AnaliseDeSoloRepository : IAnaliseDeSoloRepository
         _context = agroPlusDb;
     }
     
-    public async Task<IEnumerable<AnaliseDeSolo>> GetAnalisesDeSolo()
+    public async Task<IEnumerable<ComposicaoDeSolo>> GetAnalisesDeSolo()
     {
         return await _context.Analises.ToListAsync();
     }
-    public async Task<AnaliseDeSolo> GetAnaliseDeSoloById(Guid id)
+    public async Task<ComposicaoDeSolo> GetAnaliseDeSoloById(Guid id)
     {
         return await _context.Analises.FindAsync(id);
     }
 
-    public async Task AddAsync(AnaliseDeSolo analise)
+    public async Task AddAsync(ComposicaoDeSolo analise)
     {
         _context.Analises.Add(analise);
         await _context.SaveChangesAsync();
     }
-    public async Task UpdateAnalise(AnaliseDeSolo analise)
+    public async Task UpdateAnalise(ComposicaoDeSolo analise)
     {
         _context.Analises.Update(analise);
         await _context.SaveChangesAsync();

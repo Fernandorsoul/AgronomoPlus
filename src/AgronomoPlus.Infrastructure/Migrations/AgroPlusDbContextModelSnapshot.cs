@@ -17,12 +17,12 @@ namespace AgronomoPlus.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.1")
+                .HasAnnotation("ProductVersion", "9.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("AgronomoPlus.Domain.Models.AnaliseDeSolo", b =>
+            modelBuilder.Entity("AgronomoPlus.Domain.Models.ComposicaoDeSolo", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -103,6 +103,36 @@ namespace AgronomoPlus.Infrastructure.Migrations
                     b.ToTable("ControlePragas");
                 });
 
+            modelBuilder.Entity("AgronomoPlus.Domain.Models.MovimentacaoFinanceira", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("DataTransacao")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TipoTransacao")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Valor")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("MovimentacoesFinanceiras");
+                });
+
             modelBuilder.Entity("AgronomoPlus.Domain.Models.Person", b =>
                 {
                     b.Property<Guid>("Id")
@@ -124,6 +154,10 @@ namespace AgronomoPlus.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -236,7 +270,7 @@ namespace AgronomoPlus.Infrastructure.Migrations
                     b.ToTable("Financeiros");
                 });
 
-            modelBuilder.Entity("AgronomoPlus.Domain.Models.AnaliseDeSolo", b =>
+            modelBuilder.Entity("AgronomoPlus.Domain.Models.ComposicaoDeSolo", b =>
                 {
                     b.HasOne("AgronomoPlus.Domain.Models.Propriedade", "Propriedade")
                         .WithMany()
@@ -256,6 +290,17 @@ namespace AgronomoPlus.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Plantio");
+                });
+
+            modelBuilder.Entity("AgronomoPlus.Domain.Models.MovimentacaoFinanceira", b =>
+                {
+                    b.HasOne("AgronomoPlus.Domain.Models.Person", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("AgronomoPlus.Domain.Models.Plantio", b =>

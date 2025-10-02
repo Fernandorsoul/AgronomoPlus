@@ -3,6 +3,7 @@
 # Diretórios de dependências do .NET
 bin/
 obj/
+TODO.md
 
 # Arquivos de configuração específicos do ambiente
 appsettings.Development.json
@@ -12,6 +13,7 @@ appsettings.json
 # Diretórios do Docker
 .docker/
 docker-compose.override.yml
+funcionalidades_sistema.md
 
 # Arquivos de backup e temporários
 *.bak

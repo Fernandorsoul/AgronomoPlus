@@ -1,3 +1,4 @@
+using AgronomoPlus.Application.Interfaces;
 using AgronomoPlus.Domain.Interfaces;
 using AgronomoPlus.Domain.Models;
 using System;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AgronomoPlus.Application.Services
 {
-    public class FinanceiroService
+    public class FinanceiroService : IFinanceiroService
     {
         private readonly IFinanceiroRepository _financeiroRepository;
 

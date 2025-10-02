@@ -1,4 +1,4 @@
-using AgronomoPlus.Application.Services;
+using AgronomoPlus.Application.Interfaces;
 using AgronomoPlus.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,9 +8,9 @@ namespace AgronomoPlus.API.Controllers
     [ApiController]
     public class PropriedadeController : ControllerBase
     {
-        private readonly PropriedadeService _propriedadeService;
+        private readonly IPropriedadeService _propriedadeService;
 
-        public PropriedadeController(PropriedadeService propriedadeService)
+        public PropriedadeController(IPropriedadeService propriedadeService)
         {
             _propriedadeService = propriedadeService ?? throw new ArgumentNullException(nameof(propriedadeService));
         }
